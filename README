@@ -1,0 +1,24 @@
+Quine Tools
+Copyright 2010  Mikiya Okuno
+License GPLv3
+
+This package includes the following programs.
+
+* jbanner.rb ... A simple command to generate a banner written in Japanese.
+* quine-gen.rb ... A simple command to generate a Quine from a banner.
+
+=====
+USAGE
+=====
+
+shell> jbanner.rb -f "path_to_font.bdf" \
+ここに テキストを 書いて ください |\
+quine-gen.rb -s 2 | ruby | ruby
+
+You should pass the output to ruby twice in order to ensure that the output is
+really a quine. If the banner is too short, the ruby program will fail with a
+Syntax error. You can workaround a problem by increasing the scale factor.
+
+Refer to --help for more information.
+
+Enjoy!
