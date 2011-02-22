@@ -38,5 +38,5 @@ banner = banner.map { |s|
 
 bin = Base64.encode64(Zlib::Deflate.deflate(banner)).gsub(/\n/, '')
 
-puts "eval$s=%w'require\"base64\";require\"zlib\";b=\"#{bin}\";n=Zlib::Inflate.inflate(Base64.decode64(b));e=$s*5;o=\"eval$s=%w\"<<39;j=-1;0.upto(#{width}*#{height}-1){|i|o<<((n[i]==\"1\"[0])?e[j+=1]:32);o<<((i%#{width}==#{width-1})?10:\"\")};o[-10,6]=\"\"<<39<<\".join\";puts(o)\#'.join"
+puts "eval$s=%w'require\"base64\";require\"zlib\";b=\"#{bin}\";n=Zlib::Inflate.inflate(Base64.decode64(b));o=\"eval$s=%w\"<<39;j=-1;0.upto(#{width}*#{height}-1){|i|o<<((n[i]==\"1\"[0])?$s[(j+=1)%$s.size]:32);o<<((i%#{width}==#{width-1})?10:\"\")};o[-10,6]=\"\"<<39<<\".join\";puts(o)\#'.join"
 
