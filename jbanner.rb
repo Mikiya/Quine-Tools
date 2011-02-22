@@ -136,7 +136,11 @@ bitmap = BitmapFile.new(@bdf)
 
 ARGV.each do |v|
   v.split(/\s/).each do |vv|
-    bitmap.print_banner(vv, @margin)
+    u = vv.split(//u)
+    while u.size > 0
+      bitmap.print_banner(u[0..(@width-1)].join, @margin)
+      u[0..(@width-1)] = nil
+    end
   end
 end
 
