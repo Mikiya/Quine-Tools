@@ -86,11 +86,11 @@ end
 
 unless banner.find {|v| v.chomp == @sep}
   width = (banner.max {|a,b| a.size <=>b.size}.size + 1) * @xscale
-  height = banner.size * @yscale + 1
+  height = banner.size * @yscale
   banner = make_bitmap(banner, width)
 
   bin = deflate(banner)
-  puts "eval$s=%w'require\"base64\";require\"zlib\";b=\"#{bin}\";n=Zlib::Inflate.inflate(Base64.decode64(b));o=\"eval$s=%w\"<<39;j=-1;0.upto(#{width}*#{height}-1){|i|o<<((n[i]==#{"1"[0]})?$s[(j+=1)%$s.size]:32);o<<((i%#{width}==#{width-1})?10:\"\")};o[-6,6]=\"\"<<39<<\".join\";puts(o)\#'.join"
+  puts "eval$s=%w'require\"base64\";require\"zlib\";b=\"#{bin}\";n=Zlib::Inflate.inflate(Base64.decode64(b));o=\"eval$s=%w\"<<39;j=-1;10.upto(#{width}*#{height}-1){|i|o<<((n[i]==#{"1"[0]})?$s[(j+=1)%$s.size]:32);o<<((i%#{width}==#{width-1})?10:\"\")};o[-7,6]=\"\"<<39<<\".join\";puts(o)\#'.join"
 else
   w = Array.new
   h = Array.new
@@ -98,7 +98,7 @@ else
   banners = separate_banner(banner, @sep)
   banners.each do |banner|
     width = (banner.max {|x,y| x.size <=>y.size}.size + 1) * @xscale
-    height = banner.size * @yscale + 1
+    height = banner.size * @yscale
     w.push(width)
     h.push(height)
     b.push(make_bitmap(banner, width))
@@ -109,5 +109,5 @@ else
   data = deflate(Marshal.dump([w,h,b]))
 #  puts Marshal.load(Zlib::Inflate.inflate(Base64.decode64(deflate(Marshal.dump([w,h,b])))))
 
-  puts "eval$s=%w'x=0;$s[0..2+x.to_s.size]=\"x=\#{(x+1)%#{banners.size}};\";require\"base64\";require\"zlib\";d=Marshal.load(Zlib::Inflate.inflate(Base64.decode64(\"#{data}\")));w=d[0];h=d[1];b=d[2];o=\"eval$s=%w\"<<39;j=-1;0.upto(w[x]*h[x]-1){|i|o<<((b[x][i]==#{"1"[0]})?$s[(j+=1)%$s.size]:32);o<<((i%w[x]==w[x]-1)?10:\"\")};o[-6,6]=\"\"<<39<<\".join\";puts(o)\#'.join"
+  puts "eval$s=%w'x=0;$s[0..2+x.to_s.size]=\"x=\#{(x+1)%#{banners.size}};\";require\"base64\";require\"zlib\";d=Marshal.load(Zlib::Inflate.inflate(Base64.decode64(\"#{data}\")));w=d[0];h=d[1];b=d[2];o=\"eval$s=%w\"<<39;j=-1;10.upto(w[x]*h[x]-1){|i|o<<((b[x][i]==#{"1"[0]})?$s[(j+=1)%$s.size]:32);o<<((i%w[x]==w[x]-1)?10:\"\")};o[-7,6]=\"\"<<39<<\".join\";puts(o)\#'.join"
 end

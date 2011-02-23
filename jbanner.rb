@@ -46,7 +46,7 @@ class BitmapFile
     0.upto(@font_height - 1) do |i|
       line = ""
       b.each do |bb|
-        line << (" " * margin) << bb[i]
+        line << (" " * margin) << bb[i] << (" " * margin)
       end
       out << line
     end
@@ -107,6 +107,7 @@ end
 @vertical = false
 @bdf = nil
 @margin = 1
+@separator = nil
 opt = OptionParser.new
 
 opt.on('-f=file', String, "Bitmap font filename.") {|v|
@@ -117,6 +118,7 @@ opt.on('-f=file', String, "Bitmap font filename.") {|v|
 opt.on('-v', "Print vertically.") { @vertical = true }
 opt.on('-n=#', Integer, "Number of characters in a single line.") {|v| @width = v }
 opt.on('-m=#', Integer, "Space between characters") {|v| @margin = v }
+opt.on('-s=SEPARATOR', String, "Separator.") {|v| @separator = v }
 
 opt.parse!(ARGV)
 
@@ -135,6 +137,10 @@ end
 bitmap = BitmapFile.new(@bdf)
 
 ARGV.each do |v|
+  if v.chomp == @separator
+    puts @separator
+    next
+  end
   v.split(/\s/).each do |vv|
     u = vv.split(//u)
     while u.size > 0
@@ -142,6 +148,9 @@ ARGV.each do |v|
       u[0..(@width-1)] = nil
     end
   end
+end
+if @separator
+  puts @separator
 end
 
 @margin.times { puts "" }
