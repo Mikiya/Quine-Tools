@@ -1,5 +1,5 @@
 Quine Tools
-Copyright 2010  Mikiya Okuno
+Copyright 2011  Mikiya Okuno
 License GPLv3
 
 This package includes the following programs.
@@ -7,9 +7,9 @@ This package includes the following programs.
 * jbanner.rb ... A simple command to generate a banner written in Japanese.
 * quine-gen.rb ... A simple command to generate a Quine from a banner.
 
-=====
-USAGE
-=====
+===========
+BASIC USAGE
+===========
 
 shell> jbanner.rb -f "path_to_font.bdf" \
 ここに テキストを 書いて ください |\
@@ -18,6 +18,22 @@ quine-gen.rb -s 2 | ruby | ruby
 You should pass the output to ruby twice in order to ensure that the output is
 really a quine. If the banner is too short, the ruby program will fail with a
 Syntax error. You can workaround a problem by increasing the scale factor.
+
+============
+CYCLIC QUINE
+============
+
+This toolkit can generate cyclic quine, which produces B by executing by A,
+produces C by executing B, D, E and so forth, then back to A again.
+
+shell> jbanner.rb -f "path_to_font.bdf" -s ===\
+渋谷 === 新宿 === 池袋|\
+quine-gen.rb -x 4 -y 2 -p === > stations.rb
+
+shell> ruby stations.rb                        # 渋谷
+shell> ruby stations.rb | ruby                 # 新宿
+shell> ruby stations.rb | ruby | ruby          # 池袋
+shell> ruby stations.rb | ruby | ruby | ruby   # 渋谷 again
 
 Refer to --help for more information.
 
